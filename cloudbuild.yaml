@@ -1,23 +1,40 @@
 steps:
   - name: 'gcr.io/cloud-builders/npm'
     args: ['install']
+
   - name: 'gcr.io/cloud-builders/npm'
     args: ['test']
+
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '--tag=gcr.io/$PROJECT_ID/devops-test', '.']
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - 'run'
-      - 'deploy'
-      - 'devops-test'
-      - '--image'
-      - 'gcr.io/$PROJECT_ID/devops-test'
-      - '--region'
-      - 'europe-west1'
-      - '--platform'
-      - 'managed'
-      - '--port'
-      - '3000'
-      - '--allow-unauthenticated'
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '--tag=gcr.io/$PROJECT_ID/devops-test', '.']
+
+  - name: 'gcr.io/cloud-builders/kubectl'
+    env: ['CLOUDSDK_COMPUTE_REGION=europe-west1', 'CLOUDSDK_CONTAINER_CLUSTER=buildit']
+    args: ['apply', '-f', 'kubernetes-pods.yaml']
+
+  - name: 'gcr.io/cloud-builders/kubectl'
+    env: ['CLOUDSDK_COMPUTE_REGION=europe-west1', 'CLOUDSDK_CONTAINER_CLUSTER=buildit']
+    args: ['apply', '-f', 'kubernetes-service.yaml']
+
+#  - name: 'gcr.io/cloud-builders/gcloud'
+#    args:
+#      - 'run'
+#      - 'deploy'
+#      - 'devops-test'
+#      - '--image'
+#      - 'gcr.io/$PROJECT_ID/devops-test'
+#      - '--platform'
+#      - 'gke'
+#      - '--cluster'
+#      - 'buildit'
+#      - '--cluster-location'
+#      - 'europe-west1'
+#      - '--max-instances'
+#      - '2'
+#      - '--port'
+#      - '3000'
 
 images: ['gcr.io/$PROJECT_ID/devops-test']
