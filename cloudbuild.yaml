@@ -12,29 +12,15 @@ steps:
     args: ['build', '--tag=gcr.io/$PROJECT_ID/devops-test', '.']
 
   - name: 'gcr.io/cloud-builders/kubectl'
-    env: ['CLOUDSDK_COMPUTE_REGION=europe-west1', 'CLOUDSDK_CONTAINER_CLUSTER=buildit']
+    env: ['CLOUDSDK_COMPUTE_REGION=europe-west2-a', 'CLOUDSDK_CONTAINER_CLUSTER=buildit-cluster']
     args: ['apply', '-f', 'kubernetes-pods.yaml']
 
   - name: 'gcr.io/cloud-builders/kubectl'
-    env: ['CLOUDSDK_COMPUTE_REGION=europe-west1', 'CLOUDSDK_CONTAINER_CLUSTER=buildit']
+    env: ['CLOUDSDK_COMPUTE_REGION=europe-west2-a', 'CLOUDSDK_CONTAINER_CLUSTER=buildit-cluster']
     args: ['apply', '-f', 'kubernetes-service.yaml']
 
-#  - name: 'gcr.io/cloud-builders/gcloud'
-#    args:
-#      - 'run'
-#      - 'deploy'
-#      - 'devops-test'
-#      - '--image'
-#      - 'gcr.io/$PROJECT_ID/devops-test'
-#      - '--platform'
-#      - 'gke'
-#      - '--cluster'
-#      - 'buildit'
-#      - '--cluster-location'
-#      - 'europe-west1'
-#      - '--max-instances'
-#      - '2'
-#      - '--port'
-#      - '3000'
+  - name: 'gcr.io/cloud-builders/kubectl'
+    env: ['CLOUDSDK_COMPUTE_REGION=europe-west2-a', 'CLOUDSDK_CONTAINER_CLUSTER=buildit-cluster']
+    args: ['apply', '-f', 'kubernetes-ingress.yaml']
 
 images: ['gcr.io/$PROJECT_ID/devops-test']

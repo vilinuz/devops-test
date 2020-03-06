@@ -1,17 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: devops-test
+  name: devops-test-app
 spec:
   selector:
     matchLabels:
-      app: devops-test
+      app: devops-test-app
   replicas: 2
   template:
     metadata:
       labels:
-        app: devops-test
+        app: devops-test-app
     spec:
       containers:
-        - name: webapp
+        - name: devops-test-app
           image: gcr.io/buildit-devops/devops-test
+
