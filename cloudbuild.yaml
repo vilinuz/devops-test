@@ -1,22 +1,28 @@
 steps:
-  - name: 'gcr.io/cloud-builders/npm'
+  - id: 'Run npm build'
+    name: 'gcr.io/cloud-builders/npm'
     args: ['install']
 
-  - name: 'gcr.io/cloud-builders/npm'
+  - id: 'Run the tests'
+    name: 'gcr.io/cloud-builders/npm'
     args: ['test']
 
-  - name: 'gcr.io/cloud-builders/docker'
+  - id: 'Build the Docker image and push to Google Cloud container registry'
+    name: 'gcr.io/cloud-builders/docker'
     args: ['build', '--tag=gcr.io/$PROJECT_ID/devops-test', '.']
 
-  - name: 'gcr.io/cloud-builders/kubectl'
+  - id: 'Create the pods on Google Cloud'
+    name: 'gcr.io/cloud-builders/kubectl'
     env: ['CLOUDSDK_COMPUTE_REGION=europe-west2-a', 'CLOUDSDK_CONTAINER_CLUSTER=buildit-cluster']
     args: ['apply', '-f', 'kubernetes-pods.yaml']
 
-  - name: 'gcr.io/cloud-builders/kubectl'
+  - id: 'Create the services on Google Cloud'
+    name: 'gcr.io/cloud-builders/kubectl'
     env: ['CLOUDSDK_COMPUTE_REGION=europe-west2-a', 'CLOUDSDK_CONTAINER_CLUSTER=buildit-cluster']
     args: ['apply', '-f', 'kubernetes-service.yaml']
 
-  - name: 'gcr.io/cloud-builders/kubectl'
+  - id: 'Create the Ingress on Google Cloud'
+    name: 'gcr.io/cloud-builders/kubectl'
     env: ['CLOUDSDK_COMPUTE_REGION=europe-west2-a', 'CLOUDSDK_CONTAINER_CLUSTER=buildit-cluster']
     args: ['apply', '-f', 'kubernetes-ingress.yaml']
 
