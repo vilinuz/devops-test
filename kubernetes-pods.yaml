@@ -15,4 +15,5 @@ spec:
       containers:
         - name: devops-test-app
           image: gcr.io/buildit-devops/devops-test:latest
+          imagePullPolicy: Always
 
