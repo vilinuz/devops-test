@@ -26,4 +26,4 @@ steps:
     env: ['CLOUDSDK_COMPUTE_REGION=europe-west2-a', 'CLOUDSDK_CONTAINER_CLUSTER=buildit-cluster']
     args: ['apply', '-f', 'kubernetes-ingress.yaml']
 
-images: ['gcr.io/$PROJECT_ID/devops-test']
+images: ['gcr.io/$PROJECT_ID/devops-test:latest']
