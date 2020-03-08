@@ -2,7 +2,7 @@ var os = require('os')
 var http = require('http')
 
 function handleRequest(req, res) {
-  res.write(`[${Date.now()}] Hi there! I'm being served from ' + ${os.hostname()}`)
+  res.write(`[${new Date().toDateString()}] Hi there! I'm being served from ${os.hostname()}`)
   res.end()
 }
 
